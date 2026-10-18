@@ -675,12 +675,10 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   i.addEventListener('input',function(){
     var v=parseFloat((i.value||'').replace(',','.'));
     if(!v||v<1||v>50){o.innerHTML='Gib den Zinkgehalt pro Tablette ein.';return;}
-    var lo=Math.ceil(75/v), hi=Math.floor(90/v), t;
-    if(hi<lo){var n=Math.round(82.5/v); t='<b>'+n+'</b> '+(n==1?'Lutschtablette':'Lutschtabletten')+' pro Tag';}
-    else if(lo==hi){t='<b>'+lo+'</b> '+(lo==1?'Lutschtablette':'Lutschtabletten')+' pro Tag';}
-    else{t='<b>'+lo+' bis '+hi+'</b> Lutschtabletten pro Tag';}
-    var n2=hi<lo?Math.round(82.5/v):lo;
-    o.innerHTML=t+' <span style="color:var(--muted)">(ca. '+Math.round(n2*v)+(hi>lo?'–'+Math.round(hi*v):'')+' mg), verteilt alle 2 bis 3 Stunden über den Tag.</span>';
+    var lo=Math.max(1,Math.round(75/v)), hi=Math.max(1,Math.round(90/v)), w=function(n){return n==1?'Lutschtablette':'Lutschtabletten'};
+    var t=lo==hi?'<b>'+lo+'</b> '+w(lo):'<b>'+lo+' bis '+hi+'</b> Lutschtabletten';
+    var mg=lo==hi?'ca. '+Math.round(lo*v)+' mg':'ca. '+Math.round(lo*v)+'–'+Math.round(hi*v)+' mg';
+    o.innerHTML=t+' pro Tag <span style="color:var(--muted)">('+mg+'), verteilt alle 2 bis 3 Stunden über den Tag.</span>';
   });
 })();
 </script>
